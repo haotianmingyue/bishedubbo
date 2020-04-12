@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.springframework.org/schema/mvc">
+
+<head>
+    <meta charset="UTF-8">
+    <title>修改密码</title>
+    <link rel="stylesheet" type="text/css"
+          href="/easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css"
+          href="/easyui/themes/icon.css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css" media="all" />
+    <!-- Style-CSS -->
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <!-- Font-Awesome-Icons-CSS -->
+    <!-- //css files -->
+
+    <!-- web-fonts -->
+    <link href="//fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext"
+          rel="stylesheet">
+    <script type="text/javascript"
+            src="/easyui/jquery.min.js"></script>
+    <script type="text/javascript"
+            src="/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript"
+            src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+
+</head>
+
+<body>
+
+<h2 align="center">修改密码</h2>
+<div class="vertical-tab">
+    <div id="section1" class="section-w3ls">
+        <input type="radio" name="sections" id="option1" checked>
+        <article>
+            <form action="changePass" method="post">
+                <div class="input">
+                    <span class="fa fa-key" aria-hidden="true"></span>
+                    <input type="password" placeholder="Password" name="password" required />
+                </div>
+                <div class="input">
+                    <span class="fa fa-key" aria-hidden="true"></span>
+                    <input type="password" placeholder="Confirm Password" name="password1" required />
+                </div>
+                <button type="submit" class="btn submit" >Change</button>
+            </form>
+        </article>
+    </div>
+
+
+</body>
+</html>

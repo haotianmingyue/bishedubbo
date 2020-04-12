@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.springframework.org/schema/mvc">
+
+<head>
+    <meta charset="UTF-8">
+    <title>个人信息</title>
+    <link rel="stylesheet" type="text/css"
+          href="/easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css"
+          href="/easyui/themes/icon.css">
+    <script type="text/javascript"
+            src="/easyui/jquery.min.js"></script>
+    <script type="text/javascript"
+            src="/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript"
+            src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script>
+        $('#dd').datebox('setValue', '6/1/2012');	// set datebox value
+        var v = $('#dd').datebox('getValue');
+    </script>
+    <script>
+        $(document).ready(function(){
+            $("#perinformation").form("load","getPerInformation");//加载后台数据
+            })
+    </script>
+
+</head>
+
+<body>
+
+<h2 align="center">个人信息表</h2>
+<form id="perinformation" action="/perinformationDo" method="post">
+    <table style="border: 1px;margin: 0 auto;background: snow" width="50%" cellpadding="5" cellspacing="0" >
+        <tr>
+            <td style="background: salmon">姓名</td>
+            <td><input type="text" name="userName" style="width:95%" required="required"></td>
+        <tr>
+            <td>出生年月</td>
+            <td><input id="dd" type="text" name="userBirth"  class="easyui-datebox" required="required" style="width: 50%"></td>
+        </tr>
+        <tr>
+            <td>性别</td>
+            <td><select name="userGender" style="width: 50%">
+                <option>男</option>
+                <option>女</option>
+            </select></td>
+        </tr>
+        <tr>
+            <td>电子邮箱</td>
+            <td><input type="email" name="userEmail" style="width:95%"></td>
+        </tr>
+        <tr>
+            <td colspan="4" align="right">
+                <input type="submit" value="修改">
+                <input type="reset" value="清空">
+            </td>
+        </tr>
+    </table>
+
+</form>
+
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>显示考试学生回答</title>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="This is my page">
+    <!-- 导入easyui的资源文件 -->
+    <script type="text/javascript" src="/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css">
+    <link id="themeLink" rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css">
+    <script>
+        //展示数据
+        function showData(data) {
+            var str = "";//定义用于拼接的字符串
+            for (var i = 0; i < data.length; i++) {
+                //拼接表格的行和列
+                str = "<tr><td>" + data[i].question + "</td><td>" + data[i].score + "</td><td>" + data[i].correct + "</td><td>" + data[i].studentAnswer + "</td><td>"+"<textarea style='width: 50%'id='"+data[i].answerID+"'name='"+data[i].answerID+"'>"+"</textarea></td></tr>";
+                //追加到table中
+                $("#tab2").append(str);         }
+        }
+    </script>
+    <script>
+        $(document).ready(function(){
+            $.get("/teacherGetTestContent",function(data,status){
+                if(status=="success")
+                    showData(data);
+                else
+                    alert(status);
+            });
+        });
+    </script>
+</head>
+<body>
+<!--<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="testAddSubPage('new tab','http://www.baidu.com')">test add subpage</a>-->
+<!-- 数据表格组件 -->
+<!-- datagrid是个建表插件~用法 -->
+<!--<table id="list" class="easyui-datagrid" url="teacherGetTestContent" title="详细内容"  fit="true" border="false"-->
+       <!--fitColumns="true" pagination="true"  singleSelect="true"  rownumbers="true"  toolbar="#tb">-->
+
+    <!--<thead>-->
+    <!--<tr>-->
+        <!--<th data-options="field:'question',width:200"  >问题内容</th>-->
+        <!--<th data-options="field:'score',width:70"  >题目分值</th>-->
+        <!--<th data-options="field:'correct',width:200" >正确答案</th>-->
+        <!--<th data-options="field:'studentAnswer',width:200" >学生答案</th>-->
+    <!--</tr>-->
+
+    <!--</thead>-->
+<!--</table>-->
+<table id="tab">
+
+</table>
+<table id="tab1">
+
+</table>
+<form id="teacherConsult" action="/teacherSaveTest" method="post">
+    <table id="tab2">
+        <tr>
+            <td style="width: 30%">题目内容</td>
+            <td style="width: 5%">分值</td>
+            <td style="width: 30%">正确答案</td>
+            <td style="width: 30%">学生答案</td>
+            <td style="width: 5%">得分</td>
+        </tr>
+    </table>
+    <button type="submit" onclick="submitText()">交卷</button><br>
+</form>
+</body>
+</html>

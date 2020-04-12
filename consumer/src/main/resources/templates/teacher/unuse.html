@@ -1,0 +1,56 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="keywords" content="jquery,ui,easy,easyui,web">
+    <meta name="description" content="easyui help you build your web page easily!">
+    <title>jQuery EasyUI Demo</title>
+    <link rel="stylesheet" type="text/css"
+          href="/easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css"
+          href="/easyui/themes/icon.css">
+    <script type="text/javascript"
+            src="/easyui/jquery.min.js"></script>
+    <script type="text/javascript"
+            src="/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript"
+            src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script>
+        function getSelected(){
+            var row = $('#tt').datagrid('getSelected');
+            if (row){
+                alert('Item ID:'+row.testQuestionID+"\nPrice:"+row.testQuestionTrueAns);
+            }
+        }
+        function getSelections(){
+            var ids = [];
+            var rows = $('#tt').datagrid('getSelections');
+            for(var i=0; i<rows.length; i++){
+                ids.push(rows[i].itemid);
+            }
+            alert(ids.join('\n'));
+        }
+    </script>
+
+</head>
+<body>
+<h1>DataGrid</h1>
+<div style="margin-bottom:20px">
+    <a href="#" onclick="getSelected()">GetSelected</a>
+    <a href="#" onclick="getSelections()">GetSelections</a>
+</div>
+<table id="tt" class="easyui-datagrid" style="width:600px;height:250px"
+       url="ExamQuestion"
+       title="Load Data" iconCls="icon-save" fitColumns="true">
+    <thead>
+    <tr>
+
+        <th data-options="field:'testQuestionID',width:150" disabled="true">题目编号</th>
+        <th data-options="field:'testQuestionContent',width:150">题目内容</th>
+        <th data-options="field:'testQuestionTrueAns',width:150">题目正确答案</th>
+        <th data-options="field:'testQuestionScore',width:150">题目分值</th>
+        <th data-options="field:'testPaperID',width:150">试卷编号</th>
+    </tr>
+    </thead>
+</table>
+</body>
+</html>

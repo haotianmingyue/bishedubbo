@@ -1,0 +1,24 @@
+*{
+    box-sizing: border-box;
+}
+.header{
+
+    background-color: #111111;
+    padding: 20px;
+    border:1px solid red;
+
+}
+.left{
+    background-color: darkseagreen;
+    width: 25%;
+    border: 1px solid red;
+    float: left;
+    padding: 15px;
+}
+.right{
+    background-color: #00ad45;
+    width: 75%;
+    border:1px solid red;
+    float: left;
+    padding: 15px;
+}

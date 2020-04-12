@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>success</title>
+
+    <script type="text/javascript" src="/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css">
+    <link id="themeLink" rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css">
+</head>
+<script>
+    $(document).ready(function(){
+        $("#b1").click(function(){
+            // alert("点击");
+            var tab = window.parent.$("#tt").tabs("getSelected"); //获取当前选中的tab对象
+            var index = window.parent.$("#tt").tabs("getTabIndex", tab);  //获取当前tab的索引
+            window.parent.$("#tt").tabs("close", index ); //关闭当前tab页
+        });
+    });
+</script>
+<body>
+success
+<button id="b1">点击关闭标签</button>
+</body>
+</html>

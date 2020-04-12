@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>后台管理</title>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="This is my page">
+    <!-- 导入easyui的资源文件 -->
+    <script type="text/javascript" src="/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css">
+    <link id="themeLink" rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css">
+
+    <script>
+        $(function () {
+            $("#list").datagrid({
+                //双击事件
+                onDblClickRow: function (index, row) {
+                    var row = $('#list').datagrid('getSelected');
+                    // if (row){
+                    // alert('试卷ID:'+row.testPaperID);
+                    // }
+                    testAddSubPage(row.testPaperID+"号试卷详细内容","toShowPaperContent");
+                    $.get("readMessage?TestMessageID="+row.testMessageID ,
+                        function (js) {
+                            alert("消息已读")
+                        });
+
+                }
+            });
+        })
+    </script>
+
+    <script>//在符集tabs上创建uige标签页
+    function testAddSubPage(title,url){
+
+        var jq = top.jQuery;
+
+        if (jq("#tt").tabs('exists', title)){
+            jq("#tt").tabs('select', title);
+        } else {
+            var row = $('#list').datagrid('getSelected');
+            var url1=url+'?testPaperID='+row.testPaperID; //url拼接
+            //alert(url1);
+            // var content = '<iframe scrolling="auto" frameborder="0"  src="'+url+'" style="width:100%;height:100%;"></iframe>';
+            var content = '<iframe scrolling="auto" frameborder="0"  src="'+url1+'" style="width:100%;height:100%;"></iframe>';
+            jq("#tt").tabs('add',{
+                title:title,
+                content:content,
+                closable:true
+            });
+        }}
+    </script>
+
+
+</head>
+<body>
+<!--<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="testAddSubPage('new tab','http://www.baidu.com')">test add subpage</a>-->
+<!-- 数据表格组件 -->
+<!-- datagrid是个建表插件~用法 -->
+<table id="list" class="easyui-datagrid" url="getUnreadMessage" title="用户管理"  fit="true" border="false"
+       fitColumns="true" pagination="true"  singleSelect="true"  rownumbers="true"  toolbar="#tb">
+
+    <thead>
+    <tr>
+        <!--<th data-options="field:'id',checkbox:true" >编号</th>-->
+        <th data-options="field:'testMessageID',width:150" disabled="true" >消息id</th>
+        <th data-options="field:'testMessageContent',width:150" >消息内容</th>
+        <th data-options="field:'messageReviewerID',width:150" >消息审核人ID</th>
+        <th data-options="field:'testPaperID',width:150" >试卷编号</th>
+
+    </tr>
+
+    </thead>
+</table>
+
+<!-- 编辑窗口 -->
+<div id="win" class="easyui-window" title="数据编辑" style="width:300px;height:300px"
+     data-options="iconCls:'icon-save',modal:true,closed:true">
+    <form id="editForm" method="post">
+        <br/>
+        &nbsp;&nbsp;课程名称:&nbsp;&nbsp;&nbsp;<input type="text" name="lessonname" class="easyui-validatebox" data-options="required:true"/><br/><br/>
+
+        <br/><br/>
+        &nbsp;&nbsp;<a id="saveBtn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-save'">保存</a>
+    </form>
+</div>
+</body>
+</html>

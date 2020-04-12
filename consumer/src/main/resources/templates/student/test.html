@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Bootstrap 实例 - 固定到顶部</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            $("#start").click(function(){
+                $("#tab").load("/studentGetPaper");
+                $.get("/studentGetPaper",function (data,status){
+                    showData(data);}) ;
+            });
+        });
+    </script>
+    <script>
+        //展示数据
+        function showData(data) {
+            var str = "";//定义用于拼接的字符串
+            for (var i = 0; i < data.length; i++) {
+                //拼接表格的行和列
+                str = "<tr><td><button id='"+ data[i].testPaperID+"'>" + data[i].testPaperID + "</button></td></tr>" ;
+                //追加到table中
+                $("#tab1").append(str);         }
+        }
+    </script>
+
+    <style>
+        .clearfix:after{content: "";display: block; height: 0;line-height: 0;visibility: hidden;clear: both;}
+        .container{position: relative;}
+        .wraper{width: 33%;height: 800px; border:1px solid red;}
+        .left{float: left;}
+        .right{float: right;}
+        .center{position: absolute;left: 33%;;}
+    </style>
+
+</head>
+<body >
+<div>
+    <nav class="navbar navbar-default navbar-fixed-top" style="position: sticky " role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">在线考试系统</a>
+            </div>
+            <div>
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#"><span class="glyphicon glyphicon-home" aria-hidden="true">主页</span></a></li>
+                    <li><a href="/Paper"><span class="glyphicon glyphicon-pencil" aria-hidden="true">考试列表</span></a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-user" aria-hidden="true">我的考试</span></a></li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+
+<div>
+    <button id="start">开始考试</button>
+</div>
+<div class="container clearfix">
+    <div class="wraper left" id="left">左
+        <ul class="nav nav-pills nav-stacked">
+            <table id="tab1">
+                <tr>
+                    <th>testPaperID</th>
+                </tr>
+            </table>
+        </ul>
+    </div>
+    <div class="wraper center">欢迎参加考试，请点击左侧题目编号开始答题</div>
+    <div class="wraper right">右</div>
+</div>
+
+
+
+
+<!--<img src="/images/b4.jpg" class="img-rounded">-->
+
+<div width="500px">
+    <table id="tab">
+        <tr>
+            <th>testPaperID</th>
+            <th>testPaperTotalTime</th>
+        </tr>
+    </table>
+
+</div>
+<div width="500px">
+
+</div>
+
+
+
+
+
+
+</body>
+</html>

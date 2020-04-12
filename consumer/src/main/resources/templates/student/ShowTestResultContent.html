@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>考卷列表</title>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="This is my page">
+    <!-- 导入easyui的资源文件 -->
+    <script type="text/javascript" src="/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css">
+    <link id="themeLink" rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css">
+</head>
+<body>
+
+<table id="list" class="easyui-datagrid" url="studentGetTestContent" title="考卷列表"  fit="true" border="false"
+       fitColumns="true" pagination="true"  singleSelect="true"  rownumbers="true"  toolbar="#tb">
+
+    <thead>
+    <!--/显示已完成考试内容-->
+    <tr>
+        <th data-options="field:'problemContent',width:200" >题目内容</th>
+        <th data-options="field:'problemAnswer',width:200" >答案内容</th>
+        <th data-options="field:'score',width:70">得分</th>
+    </tr>
+    </thead>
+</table>
+</body>
+</html>

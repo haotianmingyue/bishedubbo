@@ -1,0 +1,94 @@
+#dubbo:
+#  application:
+#    name: dubbo-provider
+#  registry:
+#    address: 127.0.0.1:2181
+#    # 读者请自行更改zookeeper地址
+#    protocol: zookeeper
+#    check: false
+#  protocol:
+#    name: dubbo
+#    port: 30003
+#  monitor:
+#    protocol: register
+#  consumer:
+#    check: false
+#    timeout: 3000
+dubbo:
+  application:
+    name: member
+  #采用协议方式和端口号
+  protocol:
+    #采用dubbo协议
+    name: dubbo
+    #发布dubbo端口号为20885
+    port: 20885
+  #注册中心的地址
+  registry:
+    address: zookeeper://127.0.0.1:2181
+  #实现类扫包范围
+  scan:
+    base-packages: com.haotian.provider.service.impl
+
+
+server:
+  port: 8063
+
+master:
+  datasource:
+    url: jdbc:mysql://localhost:3306/haotianbishe?serverTimezone=UTC&useUnicode=true&charaterEncoding=utf-8&useSSL=false
+    userName: root
+    password: root
+    driverClassName: com.mysql.cj.jdbc.Driver
+second:
+  datasource:
+    url: jdbc:mysql://localhost:3307/haotianbishe?serverTimezone=UTC&useUnicode=true&charaterEncoding=utf-8&useSSL=false
+    userName: root
+    password: root
+    driverClassName: com.mysql.cj.jdbc.Driver
+
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  activemq:
+    broker-url: tcp://localhost:61616
+    user: admin
+    password: admin
+    in-memory: false
+    packages:
+      trust-all: true
+    pool:
+      enabled: false
+  redis:
+    host: localhost
+    port: 6379
+    password:
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 0
+        min-idle: 8
+        max-wait: -1ms
+  thymeleaf:
+    cache: false
+  mail:
+    host: smtp.qq.com
+    username: 2540097595@qq.com
+    password: ybrykcdmzogpeahi
+    default-encoding: utf-8
+    port: 465
+    from: 2540097595@qq.com
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          socketFactory:
+            port: 465
+            class: javax.net.ssl.SSLSocketFactory
+            fallback: false

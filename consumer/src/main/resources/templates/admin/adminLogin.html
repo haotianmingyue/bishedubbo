@@ -1,0 +1,48 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>后台登录</title>
+    <link rel="stylesheet" type="text/css"
+          href="/static/easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css"
+          href="/static/easyui/themes/icon.css">
+    <script type="text/javascript"
+            src="/static/easyui/jquery.min.js"></script>
+    <script type="text/javascript"
+            src="/static/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript"
+            src="/static/easyui/locale/easyui-lang-zh_CN.js"></script>
+
+    <script type="text/javascript">
+        function toregister(){
+            window.location.href="sturegister";
+        }
+    </script>
+</head>
+<body style="background-image:url('/static/image/loginback2.jpg');background-size:cover">
+<div style="text-align:center;margin-top:12%">
+    <font face="仿宋" size="10" color="white">后 台 登 录</font>
+    <span style="color:red" th:text="${msg}"></span>
+</div>
+<div style="margin-top:3%;margin-left:40%">
+    <form action="adminloginsubmit" method="post">
+        <table cellpadding="10px">
+            <tr>
+                <td><font color="#E8FFF5">帐&nbsp;号</font></td>
+                <td><input class="easyui-textbox" data-options="iconCls:'icon-man'" name="username"></td>
+            </tr>
+            <tr>
+                <td><font color="#E8FFF5">密&nbsp;码</font></td>
+                <td><input class="easyui-passwordbox" name="password"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td > <input type="submit" width="100" value="登录" name="submit"
+                                         style="background: red; height: 35px; width: 100px; color: white;"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>
