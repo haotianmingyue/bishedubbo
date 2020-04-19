@@ -1,12 +1,9 @@
-package com.haotian.consumer.controller;
+package com.haotian.consumer.Controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.haotian.api.Entity.Answer;
-import com.haotian.api.Entity.Paper;
-import com.haotian.api.Entity.Question;
-import com.haotian.api.Entity.Test;
+import com.haotian.api.Entity.*;
 import com.haotian.api.MasterDatabase.Dao.AnswerDao;
 import com.haotian.api.MasterDatabase.Dao.PaperDao;
 import com.haotian.api.MasterDatabase.Dao.QuestionDao;
@@ -15,13 +12,17 @@ import com.haotian.api.SecondaryDatabase.Dao.AnswerDao2;
 import com.haotian.api.SecondaryDatabase.Dao.PaperDao2;
 import com.haotian.api.SecondaryDatabase.Dao.QuestionDao2;
 import com.haotian.api.SecondaryDatabase.Dao.TestDao2;
+import com.haotian.consumer.Component.RedisUtil;
 import com.haotian.consumer.Convenient.QuestionAndAnswer;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.awt.*;
@@ -31,8 +32,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-//import com.haotian.demo.Test.QuestionServiceimpl;
 
 @Controller
 public class PaperC {
@@ -53,7 +52,10 @@ public class PaperC {
     private AnswerDao2 answerDao2;
     @Reference
     private AnswerDao answerDao;
-
+    @Resource
+    private RedisUtil redisUtil;
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
 
     private Map<String,Object> result = new HashMap<String,Object>();
 
@@ -84,8 +86,6 @@ public class PaperC {
     @ResponseBody
     public Map<String,Object> saveExamQuestions(Question question, HttpServletRequest request, HttpSession httpSession, Integer testQuestionID){
         try {
-
-//            System.out.println("idiididiid"+question.getTestQuestionID()+request.getParameter("testQuestionID")+testQuestionID);
             System.out.println("数据库添加完毕");
             question.setTestPaperID(Long.parseLong(httpSession.getAttribute("TestPaperID").toString()));
             question.setTestQuestionContent(question.getTestQuestionContent());
@@ -97,9 +97,6 @@ public class PaperC {
                 result.put("success",false);
             else
                 result.put("success", true);
-
-
-
         }catch (Exception e) {
             e.printStackTrace();
             result.put("success", false);
@@ -138,14 +135,46 @@ public class PaperC {
     @RequestMapping("/getPaper") //得到历史试卷
     @ResponseBody
     public List<Paper> getPaper(HttpSession httpSession) throws JsonProcessingException {
-
         String account=httpSession.getAttribute("account").toString();//得到账号
         long testQuestionSetterID=Long.parseLong(account);
         System.out.println("得到出题人账号"+testQuestionSetterID);
-        List<Paper> paperList=paperDao2.findAllByTestQuestionSetterID(testQuestionSetterID);
-        ObjectMapper mapper=new ObjectMapper();//注意返回的名称是 userID 不是 UserID 搞不懂为什莫会变成小写
-        System.out.println(mapper.writeValueAsString(paperList));
-
+        List<Paper> paperList=new ArrayList<>();
+//        System.out.println(redisUtil.lGet("testQuestionSetterID"+account,0,-1).equals("[]"));
+        System.out.println(redisUtil.lGet("testQuestionSetterID"+account,0,-1).size());
+        if (redisUtil.lGet("testQuestionSetterID"+account,0,-1).size()==0){
+             paperList=paperDao2.findAllByTestQuestionSetterID(testQuestionSetterID);
+            for(int i=0;i<paperList.size();i++)//
+            {
+                redisUtil.lSet("testQuestionSetterID"+account,paperList.get(i));
+            }
+            System.out.println("得到历史考卷写入缓存");
+        }
+        else
+        {
+            List<Object> papers=  redisUtil.lGet("testQuestionSetterID"+account,0,-1);
+            for(int i=0;i<papers.size();i++)
+        {
+            Paper paper= (Paper) papers.get(i);
+            paperList.add(paper);
+        }
+            System.out.println("从缓存中读到的");
+        }
+//        List<Paper> paperList=paperDao2.findAllByTestQuestionSetterID(testQuestionSetterID);
+//        ObjectMapper mapper=new ObjectMapper();//注意返回的名称是 userID 不是 UserID 搞不懂为什莫会变成小写
+//        System.out.println(mapper.writeValueAsString(paperList));
+//        List<Object> papers=  redisUtil.lGet("testQuestionSetterID223456",0,-1);
+//        System.out.println(papers.size());
+//        if(redisUtil.lGet("testQuestionSetterID"+account,0,-1)==null)
+//        {
+//
+//        }
+//        for(int i=0;i<papers.size();i++)
+//        {
+//            System.out.println("i="+i);
+//            Paper paper= (Paper) papers.get(i);
+//            paperList.add(paper);
+//        }
+////
         return paperList;
     }
     @RequestMapping("/ExamQuestion")  //显示当前考卷 所有的问题

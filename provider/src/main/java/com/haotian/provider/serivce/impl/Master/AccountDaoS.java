@@ -6,6 +6,8 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.haotian.api.Entity.Account;
 import com.haotian.api.MasterDatabase.Dao.AccountDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,12 +17,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@CacheConfig(cacheNames = "AccountDao")
 public class AccountDaoS implements AccountDao {
     @Autowired
     private  AccountDao accountDao;
 
 
     @Override
+    @Cacheable(value = "findById")
     public Account findById(long UserID) {
 
         return accountDao.findById(UserID);

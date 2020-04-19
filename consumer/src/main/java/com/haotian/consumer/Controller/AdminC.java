@@ -1,4 +1,4 @@
-package com.haotian.consumer.controller;
+package com.haotian.consumer.Controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -8,10 +8,12 @@ import com.haotian.api.MasterDatabase.Dao.PaperDao;
 import com.haotian.api.MasterDatabase.Dao.QuestionDao;
 import com.haotian.api.SecondaryDatabase.Dao.PaperDao2;
 import com.haotian.api.SecondaryDatabase.Dao.QuestionDao2;
+import com.haotian.consumer.Component.RedisUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -27,6 +29,8 @@ public class AdminC {
     private QuestionDao2 questionDao2;//从数据库读
     @Reference
     private PaperDao2 paperDao2;//从数据中读考卷
+    @Resource
+    private RedisUtil redisUtil;
 
     @RequestMapping("/tomanagePaper")  //管理试卷
     public String getPaper(){
